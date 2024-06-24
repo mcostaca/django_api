@@ -9,46 +9,48 @@ function App() {
   }
   resp
   */
+  const [value,setValue] = useState('')
   const [dados, setDados] = useState([])
+  const [refatch,setRefatch] = useState(false)
+  const [post,setPost] = useState({})
 
   useEffect(()=>{
-    async function postapi(){
-      await axios.post('http://127.0.0.1:8000/api',{
-        name:"Item #6"
-      })
-    }
 
 
     async function apifetch() {
-    
-      await axios.get('http://127.0.0.1:8000/api').then(res => {
-        setDados(res.data)
-  
-      })
       
+      const response = await axios.get('http://127.0.0.1:8000/api')
+      console.log(response)
+      setDados(response.data)
     }
     apifetch()
-    postapi()
-  },[])
+  },[refatch])
+  async function handleSubmite(e){
+    await setPost({
+      "name":"Item #21"
+      })
+    e.preventDefault()
+
+    await axios.post('http://127.0.0.1:8000/api',post)
+    setRefatch(!refatch)
+
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        
         <p>
-          {console.log(dados)}
         {dados.map((el,index)=>(
           <p key={index}>{el.name}</p>
         ))}
         </p>
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <form onSubmit={handleSubmite}>
+          <input type='text'  value={value} 
+          onChange={e => setValue(e.target.value)}/>
+          <button type='submit'>
+            Enviar
+          </button>
+        </form>
       </header>
     </div>
   );
