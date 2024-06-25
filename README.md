@@ -1,4 +1,4 @@
-#Setup
+## Setup
 
 First thing clone the repository
 ```
