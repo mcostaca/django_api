@@ -2,6 +2,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
+from django.shortcuts import get_object_or_404
+from rest_framework import status
+
 from base.models import Item
 from .serializers import ItemSerializer
 """
@@ -34,3 +37,18 @@ class api(APIView):
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data)
+        
+class updelview(APIView):
+     
+    def put(self,request, pk):
+        item = get_object_or_404(Item, pk=pk)
+        serializers = ItemSerializer(instance = item, data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        
+    def delete(self,request,pk):
+        item = get_object_or_404(Item,pk=pk)
+        item.delete()
+        return Response(status=status.HTTP_202_ACCEPTED)
+

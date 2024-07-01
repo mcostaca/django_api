@@ -4,6 +4,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path('data', views.api.as_view()),
+    path('data/<int:pk>/',views.updelview.as_view(), name='update_view'),
     # your other url patterns
     path('schema', SpectacularAPIView.as_view(), name='schema'),
     path('schema/swagger-ui', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
