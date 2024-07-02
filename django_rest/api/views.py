@@ -39,7 +39,7 @@ class api(APIView):
             return Response(serializers.data)
         
 class updelview(APIView):
-     
+    renderer_classes = [JSONRenderer]
     def put(self,request, pk):
         item = get_object_or_404(Item, pk=pk)
         serializers = ItemSerializer(instance = item, data=request.data)

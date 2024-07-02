@@ -1,18 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import React, {useState, useEffect} from 'react'
+import Delete from './components/delete';
+import Update from './components/update';
+
 
 function App() {
-  let resp = async function fetchh(){
-    await fetch('http://127.0.0.1:8000/api?format=json').then(response => response.json()).then(data =>{const info = data})
-  }
   
   
   const [value,setValue] = useState('')
   const [dados, setDados] = useState([])
   const [refatch,setRefatch] = useState(false)
   const [post,setPost] = useState({})
+
 
   useEffect(()=>{
 
@@ -36,24 +36,33 @@ function App() {
     await axios.post('http://127.0.0.1:8000/api/data',post)
     setRefatch(!refatch)
   }
+
+
   return (
     <div className='bg-gray-900	'>
     <div className='w-screen h-screen gap-96 items-center flex justify-center'>
-      <div>
-        <table className=' table-auto  text-slate-50'>
-        <tr className=''>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Created at</th>
-        </tr>
+      <div className=''>
+        <table className='table-auto  text-slate-50'>
+        <thead className=''>
+          <tr>
+            <th className='text-left px-8 py-4'>Id</th>
+            <th className='text-left px-8 py-4'>Name</th>
+            <th className='text-left px-8 py-4'>Created at</th>
+          </tr>
+        </thead>
             {dados.map((el,index)=>(
-              <tr className='border-y' key={index}>
-              <td>{el.id}</td>
-              <td>{el.name}</td>
-              <td>{el.created}</td>
+              <tr className=' px-8 py-4 border-y' key={index}>
+                <td className='px-8 py-4'>{el.id}</td>
+                <td className='px-8 py-4'>{el.name}</td>
+                <td className='px-8 py-4'>{el.created}</td>
+              <div className='gap-1 flex'>
+              <Delete link={el.id}/>
+              <Update name='MatheusUPDATED' link={el.id}/>
+              </div>
               </tr>
             ))}
         </table>
+        
       </div>
       <div className="justify-center items-center">
           
