@@ -5,18 +5,18 @@ from rest_framework.renderers import JSONRenderer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 
-from base.models import Registro
-from .serializers import RegistroSerializer
+from base.models import Item
+from .serializers import ItemSerializer
 """
 @api_view(['GET'])
 def getData(request):
-    items = Registro.objects.all()
-    serializer = RegistroSerializer(items, many=True)
+    items = Item.objects.all()
+    serializer = ItemSerializer(items, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
 def addItem(request):
-    serializer = RegistroSerializer(data=request.data)
+    serializer = ItemSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
@@ -24,29 +24,31 @@ def addItem(request):
 """
 
 class api(APIView):
+    renderer_classes = [JSONRenderer]
 
     def get(self,request):
-        items = Registro.objects.all()
-        serializers = RegistroSerializer(items, many=True)
+        items = Item.objects.all()
+        serializers = ItemSerializer(items, many=True)
         return Response(serializers.data)
     
     def post(self,request):
-        serializers = RegistroSerializer(data=request.data)
+        serializers = ItemSerializer(data=request.data)
 
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data)
         
 class updelview(APIView):
+    renderer_classes = [JSONRenderer]
     def put(self,request, pk):
-        item = get_object_or_404(Registro, pk=pk)
-        serializers = RegistroSerializer(instance = item, data=request.data)
+        item = get_object_or_404(Item, pk=pk)
+        serializers = ItemSerializer(instance = item, data=request.data)
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data)
         
     def delete(self,request,pk):
-        item = get_object_or_404(Registro,pk=pk)
+        item = get_object_or_404(Item,pk=pk)
         item.delete()
         return Response(status=status.HTTP_202_ACCEPTED)
 

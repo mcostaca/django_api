@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from base.models import Registro
+from base.models import Item
 
-class RegistroSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Registro
+        model = Item
         fields = '__all__'
